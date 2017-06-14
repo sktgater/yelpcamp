@@ -20,17 +20,21 @@ router.get("/", function(req, res){
 });
 
 // NEW route. render "new" page
-router.get("/new", function(req, res){
+router.get("/new", isLoggedIn, function(req, res){
     res.render("campgrounds/new");    
 });
 
 // CREATE route. add new campground to DB
-router.post("/", function(req, res){
-    // get data from form and add to campgrounds array
+router.post("/", isLoggedIn, function(req, res){
+    // get data from form
     var name = req.body.name,
         image = req.body.image,
         desc = req.body.description;
-    var newCampground = {name: name, image: image, description: desc};
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    };
+    var newCampground = {name: name, image: image, description: desc, author: author};
     // create a new campground and save to DB
     Campground.create(newCampground, function(err, newlyCreated){
         if (err){
@@ -55,5 +59,15 @@ router.get("/:id", function(req, res){
         }
     });
 });
+
+// Middleware function to test if correct user logged in
+function isLoggedIn(req, res, next){
+    // if logged in, call next function
+    if (req.isAuthenticated()){
+        return next();
+    }
+    // not logged in, redirect login page
+    res.redirect("/login");
+}
 
 module.exports = router;
