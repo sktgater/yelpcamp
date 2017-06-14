@@ -5,3 +5,8 @@
 .thumbnail .caption-full {
     padding: 9px;
 }
+
+/*Make delete button in show page inline with edit*/
+#delete-form {
+    display: inline;
+}

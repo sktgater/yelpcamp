@@ -25,6 +25,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressSanitizer());
 app.use(express.static(__dirname + "/public"));     // specific current directory/public
+app.use(methodOverride("_method"));
 // seed DB
 // seedDB();
 
