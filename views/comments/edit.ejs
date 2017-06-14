@@ -1,0 +1,23 @@
+<!--Comment Edit Page Template-->
+<% include ../partials/header %>
+
+<div class="container">
+    <!-- Grid System -->
+    <div class="row">
+        <h1 style="text-align: center">Edit Comment</h1>
+        <div style="width: 30%; margin: 20px auto">
+            <!--from app pass through campground_id-->
+            <form action="/campgrounds/<%= campground_id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="comment[text]" value="<%= comment.text %>"></input>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-default btn-primary btn-block">Submit</button>
+                </div>
+            </form>
+        </div>
+        <a href="/campgrounds">Go Back</a>
+    </div>
+</div>
+
+<% include ../partials/footer %>
