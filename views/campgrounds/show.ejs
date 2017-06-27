@@ -23,6 +23,7 @@
                     <h4><a><%= campground.name %></a></h4>
                     <p><%= campground.description %></p>
                     <p><em>Submitted By<%= campground.author.username %></em></p>
+                    
                     <!--Edit and Delete buttons. Only shows if current user is the author.-->
                     <% if (currentUser && campground.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
