@@ -25,10 +25,11 @@ router.post("/register", function(req, res){
     // register() handles password logic
     User.register(newUser, req.body.password, function(err, user){
         if (err){
-            console.log(err);
+            req.flash("error", err.message);
             return res.render("register");
         }
         passport.authenticate("local")(req, res, function(){
+            req.flash("success", "Welcome to YelpCamp, " + user.username);
             res.redirect("/campgrounds");
         });
     });
@@ -36,7 +37,8 @@ router.post("/register", function(req, res){
 
 // show login form
 router.get("/login", function(req, res){
-    res.render("login");
+    // If error, show error message
+    res.render("login"); 
 });
 
 // handle login functionalitity
@@ -50,17 +52,8 @@ router.post("/login", passport.authenticate("local",
 // logout route
 router.get("/logout", function(req, res){
     req.logout();
+    req.flash("success", "Logged Out");
     res.redirect("/campgrounds");
 });
-
-// Middleware function to test if correct user logged in
-function isLoggedIn(req, res, next){
-    // if logged in, call next function
-    if (req.isAuthenticated()){
-        return next();
-    }
-    // not logged in, redirect login page
-    res.redirect("/login");
-}
 
 module.exports = router;

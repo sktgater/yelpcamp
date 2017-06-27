@@ -7,6 +7,7 @@ var express = require("express"),
     mongoose = require("mongoose"),
     methodOverride = require("method-override"),
     expressSanitizer = require("express-sanitizer"),
+    flash = require("connect-flash"),
     seedDB = require("./seeds"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressSanitizer());
 app.use(express.static(__dirname + "/public"));     // specific current directory/public
 app.use(methodOverride("_method"));
+app.use(flash());
 // seed DB
 // seedDB();
 
@@ -45,6 +47,8 @@ passport.deserializeUser(User.deserializeUser());
 // Called on every route
 app.use(function(req,res,next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 
